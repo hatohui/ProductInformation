@@ -1,4 +1,4 @@
-package repositories;
+package dao;
 
 import interfaces.Workable;
 import java.sql.SQLException;

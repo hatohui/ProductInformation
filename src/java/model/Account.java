@@ -30,7 +30,7 @@ public class Account {
         this.roleInSystem = roleInSystem;
     }
 
-    public String getRoleName() {
+    public String getRoleString() {
         switch (roleInSystem) {
             case 1:
                 return "Administrator";
