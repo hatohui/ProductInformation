@@ -2,6 +2,6 @@
 <html>
     <%@ include file="/WEB-INF/jspf/header.jspf" %>
     <body>
-        <h1>All Product!</h1>
+        Product Not Found!
     </body>
 </html>
