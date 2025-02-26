@@ -1,2 +1,24 @@
+# Ignore NetBeans private settings (user-specific)
+nbproject/private/
+nbproject/private.properties
+nbproject/private.xml
+
+# Ignore generated build files (can be regenerated)
+nbproject/build-impl.xml
+nbproject/genfiles.properties
+nbproject/ant-deploy.xml
+
+# Ignore NetBeans IDE cache and temp files
+nbproject/nbactions.xml
+nbproject/nb-configuration.xml
+
+# Ignore compiled and deployment artifacts
 /build/
 /dist/
+/nbbuild/
+/nbdist/
+/nbproject/Makefile-*
+
+# Ignore local environment settings
+*.swp
+*.swo
