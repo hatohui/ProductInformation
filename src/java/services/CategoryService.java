@@ -1,4 +1,4 @@
-package dao;
+package services;
 
 import interfaces.Workable;
 import java.sql.SQLException;
@@ -7,7 +7,7 @@ import java.util.List;
 import model.Category;
 import utils.DatabaseInstance;
 
-public class CategoryDao implements Workable<Category> {
+public class CategoryService implements Workable<Category> {
 
     @Override
     public List<Category> getAll() {

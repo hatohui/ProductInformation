@@ -1,10 +1,10 @@
-package dao;
+package services;
 
 import interfaces.Workable;
 import java.util.List;
 import model.Product;
 
-public class ProductDAO implements Workable<Product> {
+public class ProductService implements Workable<Product> {
     
     @Override
     public List<Product> getAll() {

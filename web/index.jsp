@@ -2,6 +2,6 @@
 <html>
     <%@ include file="/WEB-INF/jspf/header.jspf" %>
     <body>
-        <h1>Hello world!</h1>
+        <h1>Hello world! First page</h1>
     </body>
 </html>

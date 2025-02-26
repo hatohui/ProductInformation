@@ -5,7 +5,7 @@ import java.util.Date;
 public class Account {
 
     private String account;
-    private String pass;
+//    private String pass;
     private String lastName;
     private String firstName;
     private Date birthday;
@@ -17,10 +17,9 @@ public class Account {
     public Account() {
     }
 
-    public Account(String account, String pass, String lastName, String firstName, Date birthday, boolean gender,
+    public Account(String account, String lastName, String firstName, Date birthday, boolean gender,
             String phone, boolean isUse, int roleInSystem) {
         this.account = account;
-        this.pass = pass;
         this.lastName = lastName;
         this.firstName = firstName;
         this.birthday = birthday;
@@ -51,14 +50,6 @@ public class Account {
 
     public void setAccount(String account) {
         this.account = account;
-    }
-
-    public String getPass() {
-        return pass;
-    }
-
-    public void setPass(String pass) {
-        this.pass = pass;
     }
 
     public String getLastName() {

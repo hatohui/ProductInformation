@@ -1,0 +1,5 @@
+@layer utilities {
+    input:-webkit-autofill {
+        @apply !bg-transparent !text-slate-950;
+    }
+}
