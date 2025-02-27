@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "product", urlPatterns = "/product/*")
+@WebServlet(name = "product", urlPatterns = "/products/*")
 public class ProductController extends HttpServlet {
 
     @Override

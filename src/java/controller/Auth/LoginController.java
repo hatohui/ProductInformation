@@ -36,7 +36,7 @@ public class LoginController extends HttpServlet {
             request.setAttribute("loginError", "Invalid credentials");
             request.setAttribute("lastInputUsername", username);
             request.setAttribute("lastInputPassword", password);
-            doGet(request, response);
+            request.getRequestDispatcher("/Pages/Auth/Login.jsp").forward(request, response);
         } else {
             request.getSession().setAttribute("user", userData);
             response.sendRedirect("/");

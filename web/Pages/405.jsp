@@ -2,15 +2,15 @@
 <html lang="en">
     <%@ include file="/WEB-INF/jspf/header.jspf" %>
     <body
-        class="flex flex-col select-none items-center justify-center h-screen bg-gradient-to-t from-rose-500 to-violet-900"
+        class="flex flex-col select-none items-center justify-center h-screen bg-gradient-to-t from-orange-500 to-purple-900"
         >
         <div class="text-center">
-            <h1 class="text-9xl font-bold text-gray-100 animate-pulse">404</h1>
+            <h1 class="text-9xl font-bold text-gray-100 animate-pulse">405</h1>
             <h2 class="text-2xl font-semibold text-gray-300 mt-4">
-                Oops! Page not found.
+                Method not allowed.
             </h2>
             <p class="text-slate-300 mt-2">
-                The page you're looking for don't exist.
+                Something went wrong, and we can only tell you so ;(.
             </p>
 
             <p class=""></p>

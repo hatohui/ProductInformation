@@ -28,7 +28,7 @@
                         id="username"
                         value="<%= username == null ? "" : username%>"
                         class="<%= errorMessage != null ? "border-pink-500" : "border-slate-950"%>
-                        block py-2.5 text-slate-950 appearance-none invalid:border-pink-500 duration-300
+                        block py-2.5 text-slate-950 controlled appearance-none invalid:border-pink-500 duration-300
                         focus:border-sky-500 focus:outline focus:outline-sky-500
                         focus:invalid:border-pink-500 focus:invalid:outline-pink-500
                         disabled:border-gray-200 px-0 w-full text-sm bg-transparent border-0 border-b-2
@@ -52,7 +52,7 @@
                         value="<%= password == null ? "" : password%>"
 
                         minlength="3"
-                        class="block py-2.5 <%= errorMessage != null ? "border-pink-500" : "border-slate-950"%> invalid:border-pink-500 duration-300 focus:border-sky-500 focus:outline focus:outline-sky-500 focus:invalid:border-pink-500 focus:invalid:outline-pink-500 disabled:border-gray-200 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 focus:outline-none focus:ring-0 focus:border-green-600 peer"
+                        class="block py-2.5 <%= errorMessage != null ? "border-pink-500" : "border-slate-950"%> invalid:border-pink-500 controlled duration-300 focus:border-sky-500 focus:outline focus:outline-sky-500 focus:invalid:border-pink-500 focus:invalid:outline-pink-500 disabled:border-gray-200 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 focus:outline-none focus:ring-0 focus:border-green-600 peer"
                         placeholder=" "
                         autocomplete="current-password"
                         id="password"
@@ -95,8 +95,7 @@
                 </a>
             </p>
         </form>
-        <img class="fixed -z-10 w-screen h-screen bg-repeat object-cover bg-blend-multiply"
-             src="../../Public/Images/background.png">
+        <%@include file="/WEB-INF/jspf/background.jspf" %>
         <div id="loadingOverlay" class="hidden absolute inset-0 bg-gray-100 bg-opacity-80 flex items-center justify-center transition-opacity duration-300 opacity-0">
             <div class="w-12 h-12 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
         </div>
@@ -138,6 +137,14 @@
     document.getElementById("loginForm").addEventListener("submit", function () {
         const overlay = document.getElementById("loadingOverlay");
         overlay.classList.remove("hidden");
-        setTimeout(() => overlay.classList.remove("opacity-0"), 10); // Small delay for transition effect
+        setTimeout(() => overlay.classList.remove("opacity-0"), 10);
+        =
     });
+
+    window.addEventListener("pageshow", function (event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    });
+
 </script>

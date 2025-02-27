@@ -1,5 +1,9 @@
 <%@page import="model.Account"%>
 <%@ page pageEncoding="UTF-8" %>
+<% Account account = (Account) request.getAttribute("user");%>
+<% String currentPath = request.getServletPath(); %>
+<% System.out.println(currentPath);%>
+
 <nav
     id="navbar"
     class="top-0 right-0 z-50 w-full text-white p-4 bg-gradient-to-t from-transparent via-[#2a2640]/60 to-[#1b1626]/80 transition-transform duration-500"
@@ -12,50 +16,35 @@
                 href="/"
                 class="px-2 relative overflow-hidden group transition-all duration-700"
                 >
-                <span
-                    class="absolute inset-0 bg-slate-100 w-0 duration-700 ease-out group-hover:w-full"
-                    ></span>
-                <span
-                    class="relative font-sans duration-200 font-semibold group-hover:text-slate-900"
-                    >HOME</span
-                >
+                <span class="absolute inset-0 bg-slate-100 <%= currentPath.equals("/") ? "w-full" : "w-0"%> duration-700 ease-out group-hover:w-full"></span>
+                <span class="relative font-sans duration-200 <%= currentPath.equals("/") ? "text-slate-900" : "group-hover:text-slate-900"%> font-semibold">HOME</span>
             </a>
+
             <a
-                href="/gallery"
+                href="/products"
                 class="px-2 relative overflow-hidden group transition-all duration-700"
                 >
-                <span
-                    class="absolute inset-0 bg-slate-100 w-0 duration-700 ease-out group-hover:w-full"
-                    ></span>
-                <span
-                    class="relative font-sans duration-200 font-semibold group-hover:text-slate-900"
-                    >GALLERY</span
-                >
+                <span class="absolute inset-0 bg-slate-100 <%= currentPath.equals("/products") ? "w-full" : "w-0"%> duration-700 ease-out group-hover:w-full"></span>
+                <span class="relative font-sans duration-200 <%= currentPath.equals("/products") ? "text-slate-900" : "group-hover:text-slate-900"%> font-semibold">PRODUCTS</span>
             </a>
+
             <a
-                href="/commission"
+                href="/categories"
                 class="px-2 relative overflow-hidden group transition-all duration-700"
                 >
-                <span
-                    class="absolute inset-0 bg-slate-100 w-0 duration-700 ease-out group-hover:w-full"
-                    ></span>
-                <span
-                    class="relative font-sans duration-200 font-semibold group-hover:text-slate-900"
-                    >COMMISSION</span
-                >
+                <span class="absolute inset-0 bg-slate-100 <%= currentPath.equals("/categories") ? "w-full" : "w-0"%> duration-700 ease-out group-hover:w-full"></span>
+                <span class="relative font-sans duration-200 <%= currentPath.equals("/categories") ? "text-slate-900" : "group-hover:text-slate-900"%> font-semibold">CATEGORIES</span>
             </a>
+
+            <% if (account != null && account.getRoleInSystem() == 1) {%>
             <a
-                href="/contact"
+                href="/accounts"
                 class="px-2 relative overflow-hidden group transition-all duration-700"
                 >
-                <span
-                    class="absolute inset-0 bg-slate-100 w-0 duration-700 ease-out group-hover:w-full"
-                    ></span>
-                <span
-                    class="relative font-sans duration-200 font-semibold group-hover:text-slate-900"
-                    >CONTACT</span
-                >
+                <span class="absolute inset-0 bg-slate-100 <%= currentPath.equals("/accounts") ? "w-full" : "w-0"%> duration-700 ease-out group-hover:w-full"></span>
+                <span class="relative font-sans duration-200 <%= currentPath.equals("/accounts") ? "text-slate-900" : "group-hover:text-slate-900"%> font-semibold">ACCOUNTS</span>
             </a>
+            <% }%>
         </div>
 
         <div class="relative hidden md:flex gap-2">
@@ -80,15 +69,14 @@
                 id="user-dropdown"
                 class="hidden absolute right-0 mt-2 w-40 z-50 bg-white rounded-lg shadow-lg overflow-hidden"
                 >
-                <a href="#" class="block px-4 py-2 hover:bg-gray-200"
+                <a href="/manage" class="block px-4 py-2 text-slate-900 hover:bg-gray-200"
                    >Manage User</a
                 >
-                <a href="#" class="block px-4 py-2 text-red-500 hover:bg-gray-200"
+                <a href="/logout" class="block px-4 py-2 text-red-500 hover:bg-gray-200"
                    >Log out</a
                 >
             </div>
         </div>
-
         <button
             id="hamburger-btn"
             class="md:hidden text-white focus:outline-none"
@@ -133,25 +121,23 @@
         <div
             class="flex flex-col items-center text-center justify-center pt-8 space-y-4"
             >
+            <% if (account != null && account.getRoleInSystem() == 1) {%>
+            <a href="/accounts" class="block p-3 <%= currentPath.equals("/categories") ? "bg-gray-600" : ""%> w-full text-white text-center transition-all duration-200 hover:bg-gray-600">ACCOUNTS</a>
+            <% }%>
             <a
                 href="/"
-                class="block p-3 w-full text-white text-center transition-all duration-200 hover:bg-gray-600"
+                class="block p-3 <%= currentPath.equals("/") ? "bg-gray-600" : ""%> w-full text-white text-center transition-all duration-200 hover:bg-gray-600"
                 >HOME</a
             >
             <a
-                href="/gallery"
-                class="block p-3 w-full text-white text-center transition-all duration-200 hover:bg-gray-600"
-                >GALLERY</a
+                href="/products"
+                class="block p-3 <%= currentPath.equals("/products") ? "bg-gray-600" : ""%> w-full text-white text-center transition-all duration-200 hover:bg-gray-600"
+                >PRODUCTS</a
             >
             <a
-                href="/commission"
-                class="block p-3 w-full text-white text-center transition-all duration-200 hover:bg-gray-600"
-                >COMMISSION</a
-            >
-            <a
-                href="/contact"
-                class="block p-3 w-full text-white text-center transition-all duration-200 hover:bg-gray-600"
-                >CONTACT</a
+                href="/categories"
+                class="block p-3 w-full <%= currentPath.equals("/categories") ? "bg-gray-600" : ""%> text-white text-center transition-all duration-200 hover:bg-gray-600"
+                >CATEGORIES</a
             >
             <a
                 href="/logout"
@@ -165,12 +151,11 @@
             </div>
         </div>
     </div>
+</div>
 </nav>
-
 <script>
     let lastScrollY = window.scrollY;
     const navbar = document.getElementById("navbar");
-
     window.addEventListener("scroll", () => {
         if (window.scrollY > lastScrollY) {
             navbar.style.transform = "translateY(-100%)";
@@ -179,12 +164,10 @@
         }
         lastScrollY = window.scrollY;
     });
-
     const hamburgerBtn = document.getElementById("hamburger-btn");
     const mobileMenu = document.getElementById("mobile-menu");
     const menuIcon = document.getElementById("menu-icon");
     const closeIcon = document.getElementById("close-icon");
-
     hamburgerBtn.addEventListener("click", () => {
         const isOpen = mobileMenu.classList.contains("opacity-100");
         mobileMenu.classList.toggle("opacity-100", !isOpen);
@@ -195,15 +178,12 @@
         menuIcon.classList.toggle("hidden", !isOpen);
         closeIcon.classList.toggle("hidden", isOpen);
     });
-
     const userBtn = document.getElementById("user-btn");
     const userDropdown = document.getElementById("user-dropdown");
-
     userBtn.addEventListener("click", (event) => {
         event.stopPropagation();
         userDropdown.classList.toggle("hidden");
     });
-
     document.addEventListener("click", (event) => {
         if (
                 !userBtn.contains(event.target) &&

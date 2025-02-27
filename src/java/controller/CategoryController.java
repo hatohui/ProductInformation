@@ -8,20 +8,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "dashboard", urlPatterns = {"/dashboard"})
-public class DashboardController extends HttpServlet {
+/**
+ *
+ * @author hatohui
+ */
+@WebServlet(name = "CategoryController", urlPatterns = {"/categories/*"})
+public class CategoryController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet dashboard</title>");
+            out.println("<title>Servlet CategoryController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet dashboard at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CategoryController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }

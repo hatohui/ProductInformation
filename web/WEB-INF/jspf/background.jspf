@@ -1,0 +1,3 @@
+<%@ page pageEncoding="UTF-8" %>
+<img class="fixed top-0 right-0 -z-50 w-screen h-screen bg-repeat object-cover bg-blend-multiply"
+     src="../../Public/Images/background.png">
