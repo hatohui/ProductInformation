@@ -138,7 +138,6 @@
         const overlay = document.getElementById("loadingOverlay");
         overlay.classList.remove("hidden");
         setTimeout(() => overlay.classList.remove("opacity-0"), 10);
-        =
     });
 
     window.addEventListener("pageshow", function (event) {

@@ -1,8 +1,9 @@
 <%@page import="model.Account"%>
 <%@ page pageEncoding="UTF-8" %>
-<% Account account = (Account) request.getAttribute("user");%>
-<% String currentPath = request.getServletPath(); %>
-<% System.out.println(currentPath);%>
+<% Account account = (Account) session.getAttribute("user");%>
+<%
+    String currentPath = (request.getRequestURI() != null) ? request.getRequestURI() : "";
+%>
 
 <nav
     id="navbar"
@@ -24,16 +25,16 @@
                 href="/products"
                 class="px-2 relative overflow-hidden group transition-all duration-700"
                 >
-                <span class="absolute inset-0 bg-slate-100 <%= currentPath.equals("/products") ? "w-full" : "w-0"%> duration-700 ease-out group-hover:w-full"></span>
-                <span class="relative font-sans duration-200 <%= currentPath.equals("/products") ? "text-slate-900" : "group-hover:text-slate-900"%> font-semibold">PRODUCTS</span>
+                <span class="absolute inset-0 bg-slate-100 <%= currentPath.toLowerCase().contains("/products") ? "w-full" : "w-0"%> duration-700 ease-out group-hover:w-full"></span>
+                <span class="relative font-sans duration-200 <%= currentPath.toLowerCase().contains("/products") ? "text-slate-900" : "group-hover:text-slate-900"%> font-semibold">PRODUCTS</span>
             </a>
 
             <a
                 href="/categories"
                 class="px-2 relative overflow-hidden group transition-all duration-700"
                 >
-                <span class="absolute inset-0 bg-slate-100 <%= currentPath.equals("/categories") ? "w-full" : "w-0"%> duration-700 ease-out group-hover:w-full"></span>
-                <span class="relative font-sans duration-200 <%= currentPath.equals("/categories") ? "text-slate-900" : "group-hover:text-slate-900"%> font-semibold">CATEGORIES</span>
+                <span class="absolute inset-0 bg-slate-100 <%= currentPath.toLowerCase().contains("/categories") ? "w-full" : "w-0"%> duration-700 ease-out group-hover:w-full"></span>
+                <span class="relative font-sans duration-200 <%= currentPath.toLowerCase().contains("/categories") ? "text-slate-900" : "group-hover:text-slate-900"%> font-semibold">CATEGORIES</span>
             </a>
 
             <% if (account != null && account.getRoleInSystem() == 1) {%>
@@ -41,8 +42,8 @@
                 href="/accounts"
                 class="px-2 relative overflow-hidden group transition-all duration-700"
                 >
-                <span class="absolute inset-0 bg-slate-100 <%= currentPath.equals("/accounts") ? "w-full" : "w-0"%> duration-700 ease-out group-hover:w-full"></span>
-                <span class="relative font-sans duration-200 <%= currentPath.equals("/accounts") ? "text-slate-900" : "group-hover:text-slate-900"%> font-semibold">ACCOUNTS</span>
+                <span class="absolute inset-0 bg-slate-100 <%= currentPath.toLowerCase().contains("/accounts") ? "w-full" : "w-0"%> duration-700 ease-out group-hover:w-full"></span>
+                <span class="relative font-sans duration-200 <%= currentPath.toLowerCase().contains("/accounts") ? "text-slate-900" : "group-hover:text-slate-900"%> font-semibold">ACCOUNTS</span>
             </a>
             <% }%>
         </div>
@@ -131,12 +132,12 @@
             >
             <a
                 href="/products"
-                class="block p-3 <%= currentPath.equals("/products") ? "bg-gray-600" : ""%> w-full text-white text-center transition-all duration-200 hover:bg-gray-600"
+                class="block p-3 <%= currentPath.toLowerCase().contains("/products") ? "bg-gray-600" : ""%> w-full text-white text-center transition-all duration-200 hover:bg-gray-600"
                 >PRODUCTS</a
             >
             <a
                 href="/categories"
-                class="block p-3 w-full <%= currentPath.equals("/categories") ? "bg-gray-600" : ""%> text-white text-center transition-all duration-200 hover:bg-gray-600"
+                class="block p-3 w-full <%= currentPath.toLowerCase().contains("/categories") ? "bg-gray-600" : ""%> text-white text-center transition-all duration-200 hover:bg-gray-600"
                 >CATEGORIES</a
             >
             <a
@@ -156,6 +157,12 @@
 <script>
     let lastScrollY = window.scrollY;
     const navbar = document.getElementById("navbar");
+    const hamburgerBtn = document.getElementById("hamburger-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const menuIcon = document.getElementById("menu-icon");
+    const closeIcon = document.getElementById("close-icon");
+
+// Hide navbar on scroll down, show on scroll up
     window.addEventListener("scroll", () => {
         if (window.scrollY > lastScrollY) {
             navbar.style.transform = "translateY(-100%)";
@@ -164,10 +171,8 @@
         }
         lastScrollY = window.scrollY;
     });
-    const hamburgerBtn = document.getElementById("hamburger-btn");
-    const mobileMenu = document.getElementById("mobile-menu");
-    const menuIcon = document.getElementById("menu-icon");
-    const closeIcon = document.getElementById("close-icon");
+
+// Toggle mobile menu
     hamburgerBtn.addEventListener("click", () => {
         const isOpen = mobileMenu.classList.contains("opacity-100");
         mobileMenu.classList.toggle("opacity-100", !isOpen);
@@ -178,17 +183,28 @@
         menuIcon.classList.toggle("hidden", !isOpen);
         closeIcon.classList.toggle("hidden", isOpen);
     });
+
+// Close menu when resizing to `md` (desktop size)
+    window.addEventListener("resize", () => {
+        if (window.innerWidth >= 768) {
+            mobileMenu.classList.remove("opacity-100", "-translate-y-0");
+            mobileMenu.classList.add("opacity-0", "-translate-y-5", "pointer-events-none", "max-h-0");
+            menuIcon.classList.remove("hidden");
+            closeIcon.classList.add("hidden");
+        }
+    });
+
+// User dropdown toggle
     const userBtn = document.getElementById("user-btn");
     const userDropdown = document.getElementById("user-dropdown");
+
     userBtn.addEventListener("click", (event) => {
         event.stopPropagation();
         userDropdown.classList.toggle("hidden");
     });
+
     document.addEventListener("click", (event) => {
-        if (
-                !userBtn.contains(event.target) &&
-                !userDropdown.contains(event.target)
-                ) {
+        if (!userBtn.contains(event.target) && !userDropdown.contains(event.target)) {
             userDropdown.classList.add("hidden");
         }
     });

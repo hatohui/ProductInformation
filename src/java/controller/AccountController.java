@@ -7,17 +7,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "CategoryController", urlPatterns = {"/categories/*"})
-public class CategoryController extends HttpServlet {
+@WebServlet(name = "AccountController", urlPatterns = {"/accounts"})
+public class AccountController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/Pages/Categories/Category.jsp").forward(request, response);
+        request.getRequestDispatcher("/Pages/Private/Accounts.jsp").forward(request, response);
     }
 
     @Override
     public String getServletInfo() {
         return "Short description";
     }
+
 }

@@ -1,14 +1,25 @@
 package services;
 
 import interfaces.Workable;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import model.Product;
+import utils.DatabaseInstance;
 
 public class ProductService implements Workable<Product> {
-    
+
     @Override
     public List<Product> getAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Product> list = new ArrayList<>();
+        String query = "";
+        try {
+            DatabaseInstance.connectToDatabase();
+            DatabaseInstance.close();
+        } catch (SQLException exception) {
+            return null;
+        }
+        return list;
     }
 
     @Override
