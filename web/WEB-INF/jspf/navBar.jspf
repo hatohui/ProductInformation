@@ -1,2 +1,215 @@
+<%@page import="model.Account"%>
 <%@ page pageEncoding="UTF-8" %>
-<h2>Hello World!</h2>
+<nav
+    id="navbar"
+    class="top-0 right-0 z-50 w-full text-white p-4 bg-gradient-to-t from-transparent via-[#2a2640]/60 to-[#1b1626]/80 transition-transform duration-500"
+    >
+    <div class="container mx-auto flex items-center justify-between">
+        <div class="text-white font-bold text-xl">Production Intro</div>
+
+        <div class="hidden md:flex space-x-2">
+            <a
+                href="/"
+                class="px-2 relative overflow-hidden group transition-all duration-700"
+                >
+                <span
+                    class="absolute inset-0 bg-slate-100 w-0 duration-700 ease-out group-hover:w-full"
+                    ></span>
+                <span
+                    class="relative font-sans duration-200 font-semibold group-hover:text-slate-900"
+                    >HOME</span
+                >
+            </a>
+            <a
+                href="/gallery"
+                class="px-2 relative overflow-hidden group transition-all duration-700"
+                >
+                <span
+                    class="absolute inset-0 bg-slate-100 w-0 duration-700 ease-out group-hover:w-full"
+                    ></span>
+                <span
+                    class="relative font-sans duration-200 font-semibold group-hover:text-slate-900"
+                    >GALLERY</span
+                >
+            </a>
+            <a
+                href="/commission"
+                class="px-2 relative overflow-hidden group transition-all duration-700"
+                >
+                <span
+                    class="absolute inset-0 bg-slate-100 w-0 duration-700 ease-out group-hover:w-full"
+                    ></span>
+                <span
+                    class="relative font-sans duration-200 font-semibold group-hover:text-slate-900"
+                    >COMMISSION</span
+                >
+            </a>
+            <a
+                href="/contact"
+                class="px-2 relative overflow-hidden group transition-all duration-700"
+                >
+                <span
+                    class="absolute inset-0 bg-slate-100 w-0 duration-700 ease-out group-hover:w-full"
+                    ></span>
+                <span
+                    class="relative font-sans duration-200 font-semibold group-hover:text-slate-900"
+                    >CONTACT</span
+                >
+            </a>
+        </div>
+
+        <div class="relative hidden md:flex gap-2">
+            <div class="font-sans text-white">${user.lastName} ${user.firstName}</div>
+            <button id="user-btn" class="text-white focus:outline-none">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-8 h-8"
+                    >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M15.75 6.75a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM18.75 18.75a6.75 6.75 0 00-13.5 0"
+                        ></path>
+                </svg>
+            </button>
+            <div
+                id="user-dropdown"
+                class="hidden absolute right-0 mt-2 w-40 z-50 bg-white rounded-lg shadow-lg overflow-hidden"
+                >
+                <a href="#" class="block px-4 py-2 hover:bg-gray-200"
+                   >Manage User</a
+                >
+                <a href="#" class="block px-4 py-2 text-red-500 hover:bg-gray-200"
+                   >Log out</a
+                >
+            </div>
+        </div>
+
+        <button
+            id="hamburger-btn"
+            class="md:hidden text-white focus:outline-none"
+            >
+            <svg
+                id="menu-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-8 h-8"
+                >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M3.75 6.75h16.5M3.75 12h16.5M12 17.25h8.25"
+                    ></path>
+            </svg>
+            <svg
+                id="close-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="hidden w-8 h-8"
+                >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
+                    ></path>
+            </svg>
+        </button>
+    </div>
+
+    <div
+        id="mobile-menu"
+        class="absolute inset-x-0 top-[57px] md:hidden h-[calc(100vh-57px)] transition-all duration-300 backdrop-blur-sm bg-gradient-to-b from-transparent to-black/10 opacity-0 -translate-y-5 pointer-events-none max-h-0"
+        >
+        <div
+            class="flex flex-col items-center text-center justify-center pt-8 space-y-4"
+            >
+            <a
+                href="/"
+                class="block p-3 w-full text-white text-center transition-all duration-200 hover:bg-gray-600"
+                >HOME</a
+            >
+            <a
+                href="/gallery"
+                class="block p-3 w-full text-white text-center transition-all duration-200 hover:bg-gray-600"
+                >GALLERY</a
+            >
+            <a
+                href="/commission"
+                class="block p-3 w-full text-white text-center transition-all duration-200 hover:bg-gray-600"
+                >COMMISSION</a
+            >
+            <a
+                href="/contact"
+                class="block p-3 w-full text-white text-center transition-all duration-200 hover:bg-gray-600"
+                >CONTACT</a
+            >
+            <a
+                href="/logout"
+                class="block p-3 w-full text-red-400 text-center transition-all duration-200 hover:bg-gray-600"
+                >LOG OUT</a
+            >
+            <div
+                class="absolute bottom-0 p-3 flex justify-evenly gap-5 text-sm text-white"
+                >
+                <span>Currently logged in as: ${user.lastName} ${user.firstName} - ${user.roleString}</span>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<script>
+    let lastScrollY = window.scrollY;
+    const navbar = document.getElementById("navbar");
+
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > lastScrollY) {
+            navbar.style.transform = "translateY(-100%)";
+        } else {
+            navbar.style.transform = "translateY(0)";
+        }
+        lastScrollY = window.scrollY;
+    });
+
+    const hamburgerBtn = document.getElementById("hamburger-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const menuIcon = document.getElementById("menu-icon");
+    const closeIcon = document.getElementById("close-icon");
+
+    hamburgerBtn.addEventListener("click", () => {
+        const isOpen = mobileMenu.classList.contains("opacity-100");
+        mobileMenu.classList.toggle("opacity-100", !isOpen);
+        mobileMenu.classList.toggle("-translate-y-0", !isOpen);
+        mobileMenu.classList.toggle("-translate-y-5", isOpen);
+        mobileMenu.classList.toggle("pointer-events-none", isOpen);
+        mobileMenu.classList.toggle("max-h-0", isOpen);
+        menuIcon.classList.toggle("hidden", !isOpen);
+        closeIcon.classList.toggle("hidden", isOpen);
+    });
+
+    const userBtn = document.getElementById("user-btn");
+    const userDropdown = document.getElementById("user-dropdown");
+
+    userBtn.addEventListener("click", (event) => {
+        event.stopPropagation();
+        userDropdown.classList.toggle("hidden");
+    });
+
+    document.addEventListener("click", (event) => {
+        if (
+                !userBtn.contains(event.target) &&
+                !userDropdown.contains(event.target)
+                ) {
+            userDropdown.classList.add("hidden");
+        }
+    });
+</script>

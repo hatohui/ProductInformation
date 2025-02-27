@@ -8,7 +8,7 @@
     <%@ include file="/WEB-INF/jspf/header.jspf" %>
 
     <body
-        class="w-screen h-screen flex justify-center items-center overflow-hidden bg-linear-to-b/ from-[#0a8f63] via-[#5dcc6c] to-[#63c947]"
+        class="w-screen h-screen flex justify-center items-center overflow-hidden bg-linear-to-b from-[#0a8f63] via-[#5dcc6c] to-[#63c947]"
         >
         <form
             id="loginForm"

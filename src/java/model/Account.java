@@ -11,21 +11,21 @@ public class Account {
     private Date birthday;
     private boolean gender;
     private String phone;
-    private boolean isUse;
+    private boolean inUse;
     private int roleInSystem;
 
     public Account() {
     }
 
     public Account(String account, String lastName, String firstName, Date birthday, boolean gender,
-            String phone, boolean isUse, int roleInSystem) {
+            String phone, boolean inUse, int roleInSystem) {
         this.account = account;
         this.lastName = lastName;
         this.firstName = firstName;
         this.birthday = birthday;
         this.gender = gender;
         this.phone = phone;
-        this.isUse = isUse;
+        this.inUse = inUse;
         this.roleInSystem = roleInSystem;
     }
 
@@ -40,7 +40,7 @@ public class Account {
         }
     }
 
-    public String getGender() {
+    public String getGenderTitle() {
         return gender ? "Male" : "Female";
     }
 
@@ -92,12 +92,12 @@ public class Account {
         this.phone = phone;
     }
 
-    public boolean isIsUse() {
-        return isUse;
+    public boolean isInUse() {
+        return inUse;
     }
 
-    public void setIsUse(boolean isUse) {
-        this.isUse = isUse;
+    public void setInUse(boolean inUse) {
+        this.inUse = inUse;
     }
 
     public int getRoleInSystem() {
