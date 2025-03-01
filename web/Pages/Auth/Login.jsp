@@ -50,9 +50,9 @@
                         type="password"
                         name="password"
                         value="<%= password == null ? "" : password%>"
-
+                        required
                         minlength="3"
-                        class="block py-2.5 <%= errorMessage != null ? "border-pink-500" : "border-slate-950"%> invalid:border-pink-500 controlled duration-300 focus:border-sky-500 focus:outline focus:outline-sky-500 focus:invalid:border-pink-500 focus:invalid:outline-pink-500 disabled:border-gray-200 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 focus:outline-none focus:ring-0 focus:border-green-600 peer"
+                        class="block py-2.5 <%= errorMessage != null ? "border-pink-500" : "border-slate-950"%> controlled duration-300 focus:border-sky-500 focus:outline focus:outline-sky-500 focus:invalid:border-pink-500 focus:invalid:outline-pink-500 disabled:border-gray-200 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 focus:outline-none focus:ring-0 focus:border-green-600 peer"
                         placeholder=" "
                         autocomplete="current-password"
                         id="password"

@@ -4,7 +4,6 @@ import interfaces.Workable;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import model.Account;
 import utils.DatabaseInstance;
@@ -13,7 +12,6 @@ public class AccountService implements Workable<Account> {
 
     @Override
     public List<Account> getAll() {
-        List<Account> list = new ArrayList<>();
         String query = "SELECT account, lastName, firstName, birthday, gender, phone, isUse, roleInSystem "
                 + "FROM accounts;";
         try {
@@ -24,7 +22,7 @@ public class AccountService implements Workable<Account> {
         } catch (SQLException exception) {
             System.out.println(exception);
         }
-        return list;
+        return null;
     }
 
     public Account authenticate(String username, String password) {
@@ -62,26 +60,79 @@ public class AccountService implements Workable<Account> {
 
     @Override
     public void post(Account newAccount) {
-        throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose Tools
-        // | Templates.
+        try {
+            DatabaseInstance.connectToDatabase();
+//            String query = "INSERT INTO accounts (account, pass, lastName, firstName, birthday, gender, phone, isUse, roleInSystem) "
+//                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+            if (DatabaseInstance.insertQuery("accounts", newAccount)) {
+                DatabaseInstance.close();
+                throw new SQLException("query not completed");
+            }
+            DatabaseInstance.close();
+        } catch (SQLException | IllegalAccessException error) {
+            System.out.println(error.getMessage());
+        }
     }
 
     @Override
     public Account update(String id, Account newAccountData) {
-        throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose Tools
-        // | Templates.
+        String query = "UPDATE accounts SET lastName = ?, firstName = ?, birthday = ?, gender = ?, phone = ?, isUse = ?, roleInSystem = ? WHERE account = ?;";
+
+        try {
+            DatabaseInstance.connectToDatabase();
+            boolean updated = DatabaseInstance.updateQuery(query,
+                    newAccountData.getLastName(),
+                    newAccountData.getFirstName(),
+                    newAccountData.getBirthday().toString(), // Convert Date to String (assuming DB expects it)
+                    String.valueOf(newAccountData.isGender()),
+                    newAccountData.getPhone(),
+                    String.valueOf(newAccountData.isIsUse()),
+                    String.valueOf(newAccountData.getRoleInSystem()),
+                    id // WHERE condition (account ID)
+            );
+            DatabaseInstance.close();
+
+            return updated ? newAccountData : null; // Return updated object or null if update failed
+        } catch (SQLException e) {
+            System.out.println("Error updating account: " + e.getMessage());
+        }
+        return null;
     }
 
     @Override
-    public Account delete(Account account) {
-        throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose Tools
-        // | Templates.
+    public boolean delete(String account) {
+        String query = "DELETE FROM accounts WHERE account = ?;";
+
+        try {
+            DatabaseInstance.connectToDatabase();
+            boolean deleted = DatabaseInstance.updateQuery(query, account);
+            DatabaseInstance.close();
+
+            return deleted;
+        } catch (SQLException e) {
+            System.out.println("Error deleting account: " + e.getMessage());
+        }
+        return false;
     }
 
     @Override
     public Account getById(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose Tools
-        // | Templates.
-    }
+        Account account = null;
+        String query = "SELECT account, lastName, firstName, birthday, gender, phone, isUse, roleInSystem "
+                + "FROM accounts WHERE account = ?;";
 
+        try {
+            DatabaseInstance.connectToDatabase();
+            List<Account> accounts = DatabaseInstance.query(query, Account.class, id);
+            DatabaseInstance.close();
+
+            if (!accounts.isEmpty()) {
+                account = accounts.get(0);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error retrieving account by ID: " + e.getMessage());
+        }
+
+        return account;
+    }
 }

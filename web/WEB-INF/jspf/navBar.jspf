@@ -7,12 +7,12 @@
 
 <nav
     id="navbar"
-    class="top-0 right-0 z-50 w-full text-white p-4 bg-gradient-to-t from-transparent via-[#2a2640]/60 to-[#1b1626]/80 transition-transform duration-500"
+    class="top-0 right-0 z-50 w-full text-white p-4 bg-gradient-to-t truncate from-transparent via-[#2a2640]/60 to-[#1b1626]/80 transition-transform duration-500"
     >
-    <div class="container mx-auto flex items-center justify-between">
-        <div class="text-white font-bold text-xl">Production Intro</div>
+    <div class="container mx-auto flex items-center justify-between px-4">
+        <div class="text-white font-bold text-xl flex-1 text-left truncate">Production Intro</div>
 
-        <div class="hidden md:flex space-x-2">
+        <div class="hidden md:flex justify-center flex-grow space-x-6">
             <a
                 href="/"
                 class="px-2 relative overflow-hidden group transition-all duration-700"
@@ -48,8 +48,8 @@
             <% }%>
         </div>
 
-        <div class="relative hidden md:flex gap-2">
-            <div class="font-sans text-white">${user.lastName} ${user.firstName}</div>
+        <div class="relative hidden md:flex gap-2 flex-1 justify-end">
+            <div class="font-sans text-white truncate">${user.lastName} ${user.firstName}</div>
             <button id="user-btn" class="text-white focus:outline-none">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"

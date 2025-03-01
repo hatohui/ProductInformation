@@ -14,11 +14,15 @@
 
     <error-page>
         <error-code>404</error-code>
-        <location>/Pages/404.jsp</location>
+        <location>/Pages/Errors/404.jsp</location>
     </error-page>
     <error-page>
         <error-code>405</error-code>
-        <location>/Pages/405.jsp</location>
+        <location>/Pages/Errors/405.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>403</error-code>
+        <location>/Pages/Errors/403.jsp</location>
     </error-page>
     <session-config>
         <session-timeout>

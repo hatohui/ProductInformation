@@ -9,6 +9,11 @@ public class Category {
     public Category() {
     }
 
+    public Category(String category, String memo) {
+        this.categoryName = category;
+        this.memo = memo;
+    }
+
     public Category(int typeId, String categoryName, String memo) {
         this.typeId = typeId;
         this.categoryName = categoryName;

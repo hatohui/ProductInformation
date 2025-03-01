@@ -1,9 +1,11 @@
 package model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Account {
 
+    private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
     private String account;
 //    private String pass;
     private String lastName;
@@ -11,7 +13,7 @@ public class Account {
     private Date birthday;
     private boolean gender;
     private String phone;
-    private boolean inUse;
+    private boolean isUse;
     private int roleInSystem;
 
     public Account() {
@@ -25,7 +27,7 @@ public class Account {
         this.birthday = birthday;
         this.gender = gender;
         this.phone = phone;
-        this.inUse = inUse;
+        this.isUse = inUse;
         this.roleInSystem = roleInSystem;
     }
 
@@ -76,6 +78,10 @@ public class Account {
         this.birthday = birthday;
     }
 
+    public String getBirthdayString() {
+        return (birthday != null) ? FORMATTER.format(birthday) : "N/A";
+    }
+
     public boolean isGender() {
         return gender;
     }
@@ -92,12 +98,12 @@ public class Account {
         this.phone = phone;
     }
 
-    public boolean isInUse() {
-        return inUse;
+    public boolean isIsUse() {
+        return isUse;
     }
 
-    public void setInUse(boolean inUse) {
-        this.inUse = inUse;
+    public void setIsUse(boolean inUse) {
+        this.isUse = inUse;
     }
 
     public int getRoleInSystem() {

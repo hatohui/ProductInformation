@@ -103,6 +103,7 @@ public class DatabaseInstance {
         if (connection == null) {
             throw new IllegalStateException("Database connection has not been initialized.");
         }
+
         statement = connection.prepareStatement(sql);
         for (int i = 0; i < params.length; i++) {
             statement.setString(i + 1, params[i]);
