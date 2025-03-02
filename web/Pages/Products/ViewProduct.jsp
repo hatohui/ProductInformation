@@ -34,11 +34,12 @@
             </div>
 
             <div class="flex flex-col md:flex-row gap-6 bg-black-75 border border-gray-600 rounded-lg p-6 shadow-lg h-full">
-                <div class="relative w-full md:w-[50%] h-full flex items-center justify-center">
-                    <div class="w-[90%] h-[80%] bg-gray-800 animate-pulse rounded-lg overflow-hidden">
+                <div class="relative w-full md:w-[50%] flex items-center justify-center h-full">
+                    <div class="w-[90%] bg-gray-800 animate-pulse rounded-lg overflow-hidden max-h-[80%]">
                         <img src="<%= product.getProductImage()%>" alt="<%= product.getProductName()%>"
-                             class="w-full h-full object-cover opacity-0 transition-opacity duration-300"
-                             onload="this.style.opacity = '1'; this.previousElementSibling.classList.add('hidden');">
+                             class="w-full h-full object-contain transition-opacity duration-300"
+                             onload="this.style.opacity = '1'; this.parentElement.classList.remove('bg-gray-800', 'animate-pulse');"
+                             onerror="this.src='/Public/Images/placeholder.png'; this.parentElement.classList.remove('animate-pulse');">
                     </div>
                 </div>
 

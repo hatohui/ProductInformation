@@ -1,9 +1,9 @@
 <%@page import="model.Account"%>
 <%@ page pageEncoding="UTF-8" %>
 <%
-    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-    response.setHeader("Pragma", "no-cache");
-    response.setHeader("Expires", "0");
+//    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+//    response.setHeader("Pragma", "no-cache");
+//    response.setHeader("Expires", "0");
 %>
 <% Account account = (Account) session.getAttribute("user");
 %>

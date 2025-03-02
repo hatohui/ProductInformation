@@ -125,7 +125,7 @@ public class ProductController extends HttpServlet {
                 Product product = new Product(
                         newProductId,
                         request.getParameter("productName"),
-                        "/Public/Products" + request.getParameter("productImage"),
+                        "/images/sanPham/" + request.getParameter("productImage"),
                         request.getParameter("brief"),
                         new Date(System.currentTimeMillis()),
                         Integer.parseInt(request.getParameter("typeId")),

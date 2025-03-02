@@ -54,7 +54,7 @@
                          onclick="window.location.href = '/products/view?id=<%= product.getProductId()%>';">
                         <img src="<%= product.getProductImage()%>" alt="<%= product.getProductName()%>"
                              class="w-full h-full object-cover opacity-0 transition-opacity duration-300"
-                             onload="this.style.opacity = '1'; this.previousElementSibling.classList.add('hidden');">
+                             onload="this.style.opacity = '1'; this.parentElement.classList.remove('bg-gray-800', 'animate-pulse');">
                     </div>
 
                     <div class="p-4 flex flex-col flex-grow"

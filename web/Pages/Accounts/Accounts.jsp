@@ -21,7 +21,7 @@
                                     onchange="this.form.submit()">
                                 <option value="">All Roles</option>
                                 <option value="admin" <%= "admin".equals(request.getParameter("role")) ? "selected" : ""%>>Admin</option>
-                                <option value="manager" <%= "manager".equals(request.getParameter("role")) ? "selected" : ""%>>User</option>
+                                <option value="manager" <%= "manager".equals(request.getParameter("role")) ? "selected" : ""%>>Manager</option>
                             </select>
                             <select name="status" id="statusFilter"
                                     class="bg-gray-800 text-white border border-gray-600 px-3 py-2 rounded-md focus:ring focus:ring-blue-400"
