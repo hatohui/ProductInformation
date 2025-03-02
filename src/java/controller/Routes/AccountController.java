@@ -31,7 +31,18 @@ public class AccountController extends HttpServlet {
 
         switch (path) {
             case "/":
-                List<Account> accounts = new AccountService().getAll();
+                String role = request.getParameter("role");
+                String status = request.getParameter("status");
+                List<Account> accounts;
+                System.out.println("role: " + role);
+                System.out.println("status: " + status);
+
+                if (role == null && status == null) {
+                    accounts = new AccountService().getAll();
+                } else {
+                    accounts = new AccountService().getFilteredAccounts(role, status);
+                }
+
                 request.setAttribute("accounts", accounts);
                 request.getRequestDispatcher("/Pages/Accounts/Accounts.jsp").forward(request, response);
                 break;

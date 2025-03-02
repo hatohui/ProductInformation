@@ -25,7 +25,7 @@
                         </thead>
                         <tbody>
                             <%
-                                List<Category> categories = (List<Category>) request.getAttribute("categories");
+                                List<Category> categories = (List<Category>) request.getSession().getAttribute("categories");
                                 if (categories != null && !categories.isEmpty()) {
                                     for (Category category : categories) {
                             %>

@@ -21,3 +21,12 @@ select.custom-select:-moz-focusring {
     color: transparent !important;
     text-shadow: 0 0 0 white !important;
 }
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+}

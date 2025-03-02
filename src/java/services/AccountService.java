@@ -151,4 +151,83 @@ public class AccountService implements Workable<Account> {
 
         return account;
     }
+
+    public List<Account> getByRole(String role) {
+
+        String roleId = role.equals("admin") ? "1" : "2";
+        String query = "SELECT account, lastName, firstName, birthday, gender, phone, isUse, roleInSystem "
+                + "FROM accounts WHERE roleInSystem = ?;";
+
+        List<Account> accountList = new ArrayList<>();
+
+        try {
+            DatabaseInstance.connectToDatabase();
+            ResultSet resultSet = DatabaseInstance.query(query, roleId);
+
+            while (resultSet.next()) {
+                String account = resultSet.getString("account");
+                String lastName = resultSet.getString("lastName");
+                String firstName = resultSet.getString("firstName");
+                Date birthday = resultSet.getDate("birthday");
+                boolean gender = resultSet.getBoolean("gender");
+                String phone = resultSet.getString("phone");
+                boolean isUse = resultSet.getBoolean("isUse");
+                int roleInSystem = resultSet.getInt("roleInSystem");
+
+                accountList.add(new Account(account, "", lastName, firstName, birthday, gender, phone, isUse, roleInSystem));
+            }
+
+            DatabaseInstance.close();
+        } catch (SQLException exception) {
+            System.out.println("Error retrieving accounts by role: " + exception.getMessage());
+        }
+        return accountList;
+    }
+
+    public List<Account> getFilteredAccounts(String role, String status) {
+        String baseQuery = "SELECT account, lastName, firstName, birthday, gender, phone, isUse, roleInSystem "
+                + "FROM accounts ";
+
+        List<String> parameters = new ArrayList<>();
+
+        if (role != null && !role.isEmpty()) {
+            baseQuery += "WHERE roleInSystem = ? ";
+            String roleId = role.equals("admin") ? "1" : "2";
+            parameters.add(roleId);
+        }
+
+        if (status != null && !status.isEmpty()) {
+            if (!parameters.isEmpty()) {
+                baseQuery += "AND isUse = ? ";
+            } else {
+                baseQuery += "WHERE isUse = ? ";
+            }
+            parameters.add(status);
+        }
+
+        List<Account> accounts = new ArrayList<>();
+        try {
+            DatabaseInstance.connectToDatabase();
+            ResultSet resultSet = DatabaseInstance.query(baseQuery, parameters.toArray(new String[0]));
+
+            while (resultSet.next()) {
+                String account = resultSet.getString("account");
+                String lastName = resultSet.getString("lastName");
+                String firstName = resultSet.getString("firstName");
+                Date birthday = resultSet.getDate("birthday");
+                boolean gender = resultSet.getBoolean("gender");
+                String phone = resultSet.getString("phone");
+                boolean isUse = resultSet.getBoolean("isUse");
+                int roleInSystem = resultSet.getInt("roleInSystem");
+
+                accounts.add(new Account(account, "", lastName, firstName, birthday, gender, phone, isUse, roleInSystem));
+            }
+
+            DatabaseInstance.close();
+        } catch (SQLException exception) {
+            System.out.println("Error retrieving filtered accounts: " + exception.getMessage());
+        }
+
+        return accounts;
+    }
 }

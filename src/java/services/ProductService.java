@@ -45,13 +45,9 @@ public class ProductService implements Workable<Product> {
     public boolean post(Product newProduct) {
         try {
             DatabaseInstance.connectToDatabase();
-
-            if (DatabaseInstance.insertQuery("products", newProduct)) {
-                DatabaseInstance.close();
-                throw new SQLException("Query not completed");
-            }
+            boolean success = DatabaseInstance.insertQuery("products", newProduct);
             DatabaseInstance.close();
-            return true;
+            return success;
         } catch (SQLException | IllegalAccessException error) {
             System.out.println("Error adding product: " + error.getMessage());
             return false;

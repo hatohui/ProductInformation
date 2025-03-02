@@ -24,10 +24,16 @@ public class CategoryController extends HttpServlet {
             path = "/";
         }
 
+        List<Category> categories;
+        if (request.getSession().getAttribute("categories") != null) {
+            categories = (List<Category>) request.getSession().getAttribute("categories");
+        } else {
+            categories = new CategoryService().getAll();
+            request.getSession().setAttribute("categories", categories);
+        }
+
         switch (path) {
             case "/":
-                List<Category> categories = new CategoryService().getAll();
-                request.setAttribute("categories", categories);
                 request.getRequestDispatcher("/Pages/Categories/Category.jsp").forward(request, response);
                 break;
             case "/delete":

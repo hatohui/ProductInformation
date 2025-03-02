@@ -10,12 +10,37 @@
 
         <div class="container flex flex-grow px-12 py-6 overflow-hidden mx-auto max-w-[90%]">
             <div class="flex-grow bg-black-75 p-6 rounded-lg shadow-lg border-2 border-gray-600 backdrop-blur-xs w-3/4 flex flex-col">
+
                 <div class="flex justify-between items-center mb-5">
                     <h1 class="text-3xl font-semibold">Account List</h1>
-                    <a href="/accounts/new"
-                       class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition">
-                        Create New Account
-                    </a>
+
+                    <div class="flex items-center gap-3">
+                        <form id="roleFilterForm" action="/accounts" method="get">
+                            <select name="role" id="roleFilter"
+                                    class="bg-gray-800 text-white border border-gray-600 px-3 py-2 rounded-md focus:ring focus:ring-blue-400"
+                                    onchange="this.form.submit()">
+                                <option value="">All Roles</option>
+                                <option value="admin" <%= "admin".equals(request.getParameter("role")) ? "selected" : ""%>>Admin</option>
+                                <option value="manager" <%= "manager".equals(request.getParameter("role")) ? "selected" : ""%>>User</option>
+                            </select>
+                            <select name="status" id="statusFilter"
+                                    class="bg-gray-800 text-white border border-gray-600 px-3 py-2 rounded-md focus:ring focus:ring-blue-400"
+                                    onchange="this.form.submit()">
+                                <option value="">All Statuses</option>
+                                <option value="true" <%= "true".equals(request.getParameter("status")) ? "selected" : ""%>>Active</option>
+                                <option value="false" <%= "false".equals(request.getParameter("status")) ? "selected" : ""%>>Inactive</option>
+                            </select>
+                        </form>
+
+                        <input type="text" id="searchInput"
+                               placeholder="Search name..."
+                               class="bg-gray-800 text-white border border-gray-600 px-3 py-2 rounded-md focus:ring focus:ring-blue-400">
+
+                        <a href="/accounts/new"
+                           class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition">
+                            Create New Account
+                        </a>
+                    </div>
                 </div>
 
                 <div class="overflow-auto flex-grow">
@@ -200,5 +225,21 @@
         </script>
 
         <div class="fixed inset-0 -z-50 bg-[url('/Public/Images/axiom-pattern.png')] bg-repeat brightness-125 bg-blend-screen"></div>
+        <script>
+            document.getElementById("searchInput").addEventListener("input", function () {
+                let searchQuery = this.value.toLowerCase();
+                let rows = document.querySelectorAll("tbody tr");
+
+                rows.forEach(row => {
+                    let accountName = row.children[0].textContent.toLowerCase();
+                    let fullName = row.children[1].textContent.toLowerCase();
+
+                    let matchesSearch = accountName.includes(searchQuery) || fullName.includes(searchQuery);
+
+                    row.style.display = matchesSearch ? "" : "none";
+                });
+            });
+        </script>
     </body>
 </html>
+

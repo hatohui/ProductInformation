@@ -28,9 +28,7 @@ public class CategoryService implements Workable<Category> {
         try {
             DatabaseInstance.connectToDatabase();
             String query = "INSERT INTO categories(categoryName, memo) VALUES (?,?);";
-            System.out.println("memo: " + object.getMemo());
             DatabaseInstance.updateQuery(query, object.getCategoryName(), object.getMemo());
-            System.out.println("past here");
             DatabaseInstance.close();
             return true;
         } catch (SQLException e) {
