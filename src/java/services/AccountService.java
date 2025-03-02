@@ -4,6 +4,7 @@ import interfaces.Workable;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import model.Account;
 import utils.DatabaseInstance;
@@ -12,17 +13,32 @@ public class AccountService implements Workable<Account> {
 
     @Override
     public List<Account> getAll() {
-        String query = "SELECT account, lastName, firstName, birthday, gender, phone, isUse, roleInSystem "
-                + "FROM accounts;";
+        String query = "SELECT account, lastName, firstName, birthday, gender, phone, isUse, roleInSystem FROM accounts;";
+        List<Account> accountList = new ArrayList<>();
+
         try {
             DatabaseInstance.connectToDatabase();
-            List<Account> accounts = DatabaseInstance.query(query, Account.class);
+            ResultSet accounts = DatabaseInstance.query(query);
+
+            while (accounts.next()) {
+                String account = accounts.getString("account");
+                String lastName = accounts.getString("lastName");
+                String firstName = accounts.getString("firstName");
+                Date birthday = accounts.getDate("birthday");
+                boolean gender = accounts.getBoolean("gender");
+                String phone = accounts.getString("phone");
+                boolean isUse = accounts.getBoolean("isUse");
+                int roleInSystem = accounts.getInt("roleInSystem");
+
+                accountList.add(new Account(account, "", lastName, firstName, birthday, gender, phone, isUse, roleInSystem));
+            }
+
             DatabaseInstance.close();
-            return accounts;
         } catch (SQLException exception) {
-            System.out.println(exception);
+            System.out.println("Error retrieving accounts: " + exception.getMessage());
         }
-        return null;
+
+        return accountList;
     }
 
     public Account authenticate(String username, String password) {
@@ -59,18 +75,18 @@ public class AccountService implements Workable<Account> {
     }
 
     @Override
-    public void post(Account newAccount) {
+    public boolean post(Account newAccount) {
         try {
             DatabaseInstance.connectToDatabase();
-//            String query = "INSERT INTO accounts (account, pass, lastName, firstName, birthday, gender, phone, isUse, roleInSystem) "
-//                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
-            if (DatabaseInstance.insertQuery("accounts", newAccount)) {
+            if (!DatabaseInstance.insertQuery("accounts", newAccount)) {
                 DatabaseInstance.close();
                 throw new SQLException("query not completed");
             }
             DatabaseInstance.close();
+            return true;
         } catch (SQLException | IllegalAccessException error) {
             System.out.println(error.getMessage());
+            return false;
         }
     }
 
@@ -83,16 +99,16 @@ public class AccountService implements Workable<Account> {
             boolean updated = DatabaseInstance.updateQuery(query,
                     newAccountData.getLastName(),
                     newAccountData.getFirstName(),
-                    newAccountData.getBirthday().toString(), // Convert Date to String (assuming DB expects it)
+                    newAccountData.getBirthday().toString(),
                     String.valueOf(newAccountData.isGender()),
                     newAccountData.getPhone(),
                     String.valueOf(newAccountData.isIsUse()),
                     String.valueOf(newAccountData.getRoleInSystem()),
-                    id // WHERE condition (account ID)
+                    id
             );
             DatabaseInstance.close();
 
-            return updated ? newAccountData : null; // Return updated object or null if update failed
+            return updated ? newAccountData : null;
         } catch (SQLException e) {
             System.out.println("Error updating account: " + e.getMessage());
         }

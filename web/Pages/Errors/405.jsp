@@ -15,7 +15,7 @@
 
             <p class=""></p>
             <a
-                onclick="; return false;"
+                onclick="history.back(); return false;"
                 class="mt-6 relative overflow-hidden group inline-block px-6 py-3 text-white group-hover:border-none rounded-xl text-lg shadow-md border-2 transition-all"
                 >
                 <span

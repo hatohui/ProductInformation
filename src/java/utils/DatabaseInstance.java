@@ -105,6 +105,9 @@ public class DatabaseInstance {
         }
 
         statement = connection.prepareStatement(sql);
+
+        System.out.println(sql);
+
         for (int i = 0; i < params.length; i++) {
             statement.setString(i + 1, params[i]);
         }
@@ -130,6 +133,8 @@ public class DatabaseInstance {
         sql.setLength(sql.length() - 2);
         placeholders.setLength(placeholders.length() - 2);
         sql.append(") VALUES (").append(placeholders).append(")");
+
+        System.out.println("Generated SQL: " + sql.toString());
 
         try {
             statement = connection.prepareStatement(sql.toString());

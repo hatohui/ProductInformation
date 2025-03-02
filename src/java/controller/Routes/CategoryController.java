@@ -17,6 +17,7 @@ public class CategoryController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         String path = request.getPathInfo();
 
         if (path == null) {
@@ -52,12 +53,22 @@ public class CategoryController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        String idParam = request.getParameter("categoryId");
 
-        String categoryName = request.getParameter("categoryName");
-        String memo = request.getParameter("memo");
+        CategoryService categoryService = new CategoryService();
 
-        new CategoryService().post(new Category(categoryName, memo));
+        if (idParam != null && !idParam.isEmpty()) {
+            String categoryName = request.getParameter("editCategoryName");
+            String memo = request.getParameter("editMemo");
+            categoryService.update(idParam, new Category(categoryName, memo));
+        } else {
+            String categoryName = request.getParameter("categoryName");
+            String memo = request.getParameter("memo");
+            categoryService.post(new Category(categoryName, memo));
+        }
 
         response.sendRedirect("/categories");
     }
+
 }

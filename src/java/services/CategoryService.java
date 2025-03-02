@@ -24,7 +24,7 @@ public class CategoryService implements Workable<Category> {
     }
 
     @Override
-    public void post(Category object) {
+    public boolean post(Category object) {
         try {
             DatabaseInstance.connectToDatabase();
             String query = "INSERT INTO categories(categoryName, memo) VALUES (?,?);";
@@ -32,8 +32,10 @@ public class CategoryService implements Workable<Category> {
             DatabaseInstance.updateQuery(query, object.getCategoryName(), object.getMemo());
             System.out.println("past here");
             DatabaseInstance.close();
+            return true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return false;
         }
     }
 
@@ -58,7 +60,8 @@ public class CategoryService implements Workable<Category> {
         try {
             DatabaseInstance.connectToDatabase();
             String query = "UPDATE categories SET categoryName = ?, memo = ? WHERE typeId = ?;";
-            DatabaseInstance.updateQuery(query, object.getCategoryName(), object.getMemo(), String.valueOf(object.getTypeId()));
+            System.out.println(object.getCategoryName() + " memo:" + object.getMemo());
+            DatabaseInstance.updateQuery(query, object.getCategoryName(), object.getMemo(), id);
             DatabaseInstance.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());

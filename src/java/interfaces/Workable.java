@@ -6,7 +6,7 @@ public interface Workable<T> {
 
     public List<T> getAll();
 
-    public void post(T object);
+    public boolean post(T object);
 
     public T update(String id, T object);
 

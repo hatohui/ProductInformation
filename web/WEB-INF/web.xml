@@ -24,6 +24,15 @@
         <error-code>403</error-code>
         <location>/Pages/Errors/403.jsp</location>
     </error-page>
+    <error-page>
+        <error-code>400</error-code>
+        <location>/Pages/Errors/400.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/Pages/Errors/500.jsp</location>
+    </error-page>
+
     <session-config>
         <session-timeout>
             30

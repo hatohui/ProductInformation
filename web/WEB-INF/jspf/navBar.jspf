@@ -1,6 +1,12 @@
 <%@page import="model.Account"%>
 <%@ page pageEncoding="UTF-8" %>
-<% Account account = (Account) session.getAttribute("user");%>
+<%
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    response.setHeader("Pragma", "no-cache");
+    response.setHeader("Expires", "0");
+%>
+<% Account account = (Account) session.getAttribute("user");
+%>
 <%
     String currentPath = (request.getRequestURI() != null) ? request.getRequestURI() : "";
 %>
@@ -68,7 +74,7 @@
             </button>
             <div
                 id="user-dropdown"
-                class="hidden absolute right-0 mt-2 w-40 z-50 bg-white rounded-lg shadow-lg overflow-hidden"
+                class="hidden fixed right-2 mt-10 w-40 z-50 bg-white rounded-lg shadow-lg overflow-hidden"
                 >
                 <a href="/manage" class="block px-4 py-2 text-slate-900 hover:bg-gray-200"
                    >Manage User</a

@@ -1,13 +1,12 @@
 package model;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.sql.Date;
 
 public class Account {
 
-    private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
     private String account;
-//    private String pass;
+    private String pass;
     private String lastName;
     private String firstName;
     private Date birthday;
@@ -17,6 +16,19 @@ public class Account {
     private int roleInSystem;
 
     public Account() {
+    }
+
+    public Account(String account, String password, String lastName, String firstName, Date birthday, boolean gender,
+            String phone, boolean inUse, int roleInSystem) {
+        this.account = account;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.birthday = birthday;
+        this.gender = gender;
+        this.phone = phone;
+        this.isUse = inUse;
+        this.roleInSystem = roleInSystem;
+        this.pass = password;
     }
 
     public Account(String account, String lastName, String firstName, Date birthday, boolean gender,
@@ -29,6 +41,7 @@ public class Account {
         this.phone = phone;
         this.isUse = inUse;
         this.roleInSystem = roleInSystem;
+        this.pass = "";
     }
 
     public String getRoleString() {
@@ -36,7 +49,7 @@ public class Account {
             case 1:
                 return "Administrator";
             case 2:
-                return "Staff";
+                return "Manager";
             default:
                 throw new IllegalStateException("Invalid role");
         }
@@ -79,7 +92,7 @@ public class Account {
     }
 
     public String getBirthdayString() {
-        return (birthday != null) ? FORMATTER.format(birthday) : "N/A";
+        return (birthday != null) ? new SimpleDateFormat("yyyy-MM-dd").format(birthday) : "N/A";
     }
 
     public boolean isGender() {
@@ -112,5 +125,9 @@ public class Account {
 
     public void setRoleInSystem(int roleInSystem) {
         this.roleInSystem = roleInSystem;
+    }
+
+    protected String getPass() {
+        return pass;
     }
 }

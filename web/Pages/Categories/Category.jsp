@@ -127,10 +127,9 @@
             <div class="bg-black-75 p-6 rounded-lg shadow-lg border-2 border-gray-600 w-[350px]">
                 <h2 class="text-2xl font-semibold text-center text-white">Edit Category</h2>
 
-                <form id="editCategoryForm" action="category" method="post" class="mt-4">
+                <form id="editCategoryForm" action="categories/update" method="post" class="mt-4">
                     <input type="hidden" id="editCategoryId" name="categoryId">
 
-                    <!-- Category Name -->
                     <div class="relative z-0 transition-all mb-4">
                         <input
                             type="text"

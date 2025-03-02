@@ -42,7 +42,7 @@ public class ProductService implements Workable<Product> {
     }
 
     @Override
-    public void post(Product newProduct) {
+    public boolean post(Product newProduct) {
         try {
             DatabaseInstance.connectToDatabase();
 
@@ -51,8 +51,10 @@ public class ProductService implements Workable<Product> {
                 throw new SQLException("Query not completed");
             }
             DatabaseInstance.close();
+            return true;
         } catch (SQLException | IllegalAccessException error) {
             System.out.println("Error adding product: " + error.getMessage());
+            return false;
         }
     }
 
