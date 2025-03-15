@@ -34,6 +34,7 @@
                 <span class="absolute inset-0 bg-slate-100 <%= currentPath.toLowerCase().contains("/products") ? "w-full" : "w-0"%> duration-700 ease-out group-hover:w-full"></span>
                 <span class="relative font-sans duration-200 <%= currentPath.toLowerCase().contains("/products") ? "text-slate-900" : "group-hover:text-slate-900"%> font-semibold">PRODUCTS</span>
             </a>
+            <% if (account != null && account.getRoleInSystem() == 1) {%>
 
             <a
                 href="/categories"
@@ -43,7 +44,6 @@
                 <span class="relative font-sans duration-200 <%= currentPath.toLowerCase().contains("/categories") ? "text-slate-900" : "group-hover:text-slate-900"%> font-semibold">CATEGORIES</span>
             </a>
 
-            <% if (account != null && account.getRoleInSystem() == 1) {%>
             <a
                 href="/accounts"
                 class="px-2 relative overflow-hidden group transition-all duration-700"
@@ -141,11 +141,13 @@
                 class="block p-3 <%= currentPath.toLowerCase().contains("/products") ? "bg-gray-600" : ""%> w-full text-white text-center transition-all duration-200 hover:bg-gray-600"
                 >PRODUCTS</a
             >
+            <% if (account != null && account.getRoleInSystem() == 1) {%>
             <a
                 href="/categories"
                 class="block p-3 w-full <%= currentPath.toLowerCase().contains("/categories") ? "bg-gray-600" : ""%> text-white text-center transition-all duration-200 hover:bg-gray-600"
                 >CATEGORIES</a
             >
+            <% }%>
             <a
                 href="/logout"
                 class="block p-3 w-full text-red-400 text-center transition-all duration-200 hover:bg-gray-600"

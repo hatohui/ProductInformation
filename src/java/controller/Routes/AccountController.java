@@ -23,6 +23,7 @@ public class AccountController extends HttpServlet {
         if (currUser.getRoleInSystem() != 1) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
         }
+
         String path = request.getPathInfo();
 
         if (path == null) {
@@ -71,6 +72,12 @@ public class AccountController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+
+        Account currUser = (Account) request.getSession().getAttribute("user");
+
+        if (currUser.getRoleInSystem() != 1) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+        }
 
         String idParam = request.getParameter("account");
         AccountService accountService = new AccountService();

@@ -26,10 +26,6 @@ public class ProductController extends HttpServlet {
         String path = request.getPathInfo();
 
         Account user = (Account) request.getSession().getAttribute("user");
-        if (user == null || (user.getRoleInSystem() != 1 && user.getRoleInSystem() != 2)) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Please log in with appropriate privileges");
-            return;
-        }
 
         if (path == null) {
             path = "/";
@@ -62,9 +58,15 @@ public class ProductController extends HttpServlet {
                 }
                 break;
             case "/create":
+                if (user.getRoleInSystem() != 1) {
+                    response.sendError(HttpServletResponse.SC_FORBIDDEN);
+                }
                 request.getRequestDispatcher("/Pages/Products/CreateProduct.jsp").forward(request, response);
                 break;
             case "/edit":
+                if (user.getRoleInSystem() != 1) {
+                    response.sendError(HttpServletResponse.SC_FORBIDDEN);
+                }
                 String editProductId = request.getParameter("id");
                 if (editProductId != null && !editProductId.isEmpty()) {
                     Product product = new ProductService().getById(editProductId);
@@ -79,6 +81,9 @@ public class ProductController extends HttpServlet {
                 }
                 break;
             case "/delete":
+                if (user.getRoleInSystem() != 1) {
+                    response.sendError(HttpServletResponse.SC_FORBIDDEN);
+                }
                 String deleteProductId = request.getParameter("id");
                 if (deleteProductId != null) {
                     if (new ProductService().delete(deleteProductId)) {
@@ -99,6 +104,11 @@ public class ProductController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+
+        Account user = (Account) request.getSession().getAttribute("user");
+        if (user.getRoleInSystem() != 1) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+        }
 
         String productId = request.getParameter("productId");
         ProductService productService = new ProductService();

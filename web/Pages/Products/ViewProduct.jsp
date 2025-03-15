@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="model.Product, model.Category, java.text.NumberFormat, java.util.Locale, java.util.List" %>
+<%@ page import="model.Product, model.Category, model.Account, java.text.NumberFormat, java.util.Locale, java.util.List" %>
 
 <html>
     <%@ include file="/WEB-INF/jspf/header.jspf" %>
@@ -64,6 +64,7 @@
 
                     <p class="text-gray-400 text-sm mb-4"><%= product.getBrief()%></p>
 
+                    <% if (account.getRoleInSystem() == 1) {%>
                     <div class="mt-auto flex gap-4">
                         <a href="/products/edit?id=<%= product.getProductId()%>"
                            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition">
@@ -85,6 +86,7 @@
                             </a>
                         </div>
                     </div>
+                    <% } %>
                 </div>
             </div>
 

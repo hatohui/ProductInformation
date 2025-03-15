@@ -61,9 +61,13 @@ public class CategoryController extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String idParam = request.getParameter("categoryId");
+        Account user = (Account) request.getSession().getAttribute("user");
+        if (user.getRoleInSystem() != 1) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+        }
 
         CategoryService categoryService = new CategoryService();
-
+        
         if (idParam != null && !idParam.isEmpty()) {
             String categoryName = request.getParameter("editCategoryName");
             String memo = request.getParameter("editMemo");
