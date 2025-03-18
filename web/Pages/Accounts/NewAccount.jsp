@@ -71,9 +71,9 @@
                             <select id="role" name="role" required
                                     class="block w-full p-2 pr-10 bg-transparent border border-gray-600 rounded text-white
                                     focus:border-sky-500 focus:outline-none cursor-pointer custom-select">
-                                <option value="" class="bg-black/75" disabled selected>Select a role</option>
-                                <option value="1" class="bg-black/75">Admin</option>
-                                <option value="2" class="bg-black/75">Manager</option>
+                                <option value="" class="bg-slate-950 text-slate-400" disabled selected>Select a role</option>
+                                <option value="1" class="bg-slate-950 text-slate-400">Admin</option>
+                                <option value="2" class="bg-slate-950 text-slate-400">Manager</option>
                             </select>
                         </div>
                     </div>

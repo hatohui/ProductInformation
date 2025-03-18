@@ -54,7 +54,7 @@ public class AccountController extends HttpServlet {
                 String id = request.getParameter("account");
 
                 if (id != null) {
-                    if (new AccountService().delete(id)) {
+                    if (new AccountService().setInactive(id)) {
                         response.sendRedirect("/accounts");
                     } else {
                         response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

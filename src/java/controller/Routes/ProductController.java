@@ -2,6 +2,7 @@ package controller.Routes;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,6 +33,7 @@ public class ProductController extends HttpServlet {
         }
 
         List<Category> categories = (List<Category>) request.getSession().getAttribute("categories");
+
         if (categories == null) {
             categories = new CategoryService().getAll();
             request.getSession().setAttribute("categories", categories);
@@ -39,7 +41,49 @@ public class ProductController extends HttpServlet {
 
         switch (path) {
             case "/":
-                List<Product> products = new ProductService().getAll();
+                String searchQuery = request.getParameter("search");
+                String category = request.getParameter("category");
+                String filter = request.getParameter("filter");
+
+                List<Product> products;
+
+                if (category != null && !category.equals("all")) {
+                    products = new ProductService().getProductsByCategory(Integer.parseInt(category));
+                } else {
+                    products = new ProductService().getAll();
+                }
+
+                if (searchQuery != null && !searchQuery.isEmpty()) {
+                    List<Product> searchResult = new ProductService().search(searchQuery.trim());
+                    products.retainAll(searchResult);
+                    request.setAttribute("search", searchQuery);
+                }
+
+                if (filter != null && !filter.isEmpty()) {
+                    List<Product> filtered = new ArrayList<>();
+                    for (Product product : products) {
+                        int finalPrice = product.getPrice() - (product.getPrice() * product.getDiscount() / 100);
+                        switch (filter) {
+                            case "below5m":
+                                if (finalPrice < 5000000) {
+                                    filtered.add(product);
+                                }
+                                break;
+                            case "5mTo15m":
+                                if (finalPrice >= 5000000 && finalPrice <= 15000000) {
+                                    filtered.add(product);
+                                }
+                                break;
+                            case "above15m":
+                                if (finalPrice > 15000000) {
+                                    filtered.add(product);
+                                }
+                                break;
+                        }
+                    }
+                    products = filtered;
+                }
+
                 request.setAttribute("products", products);
                 request.getRequestDispatcher("/Pages/Products/Products.jsp").forward(request, response);
                 break;

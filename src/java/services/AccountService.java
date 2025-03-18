@@ -115,6 +115,21 @@ public class AccountService implements Workable<Account> {
         return null;
     }
 
+    public boolean setInactive(String account) {
+        String query = "UPDATE accounts SET isUse = 0 WHERE account = ?;";
+
+        try {
+            DatabaseInstance.connectToDatabase();
+            boolean updated = DatabaseInstance.updateQuery(query, account);
+            DatabaseInstance.close();
+
+            return updated;
+        } catch (SQLException e) {
+            System.out.println("Error setting account inactive: " + e.getMessage());
+        }
+        return false;
+    }
+
     @Override
     public boolean delete(String account) {
         String query = "DELETE FROM accounts WHERE account = ?;";
@@ -139,7 +154,8 @@ public class AccountService implements Workable<Account> {
 
         try {
             DatabaseInstance.connectToDatabase();
-            List<Account> accounts = DatabaseInstance.query(query, Account.class, id);
+            List<Account> accounts = DatabaseInstance.query(query, Account.class,
+                    id);
             DatabaseInstance.close();
 
             if (!accounts.isEmpty()) {

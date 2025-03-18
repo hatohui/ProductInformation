@@ -7,8 +7,8 @@
     <body class="bg-[#030712] text-white min-h-screen flex flex-col">
         <%@ include file="/WEB-INF/jspf/navBar.jspf" %>
 
-        <div class="flex flex-grow w-full h-full p-8 scrollbar-none">
-            <div class="w-full h-full bg-black-75 p-6 rounded-lg shadow-lg border-2 border-gray-600 backdrop-blur-xs overflow-y-auto">
+        <div class="flex flex-grow justify-center w-full h-full p-8 scrollbar-none">
+            <div class="bg-black-75 w-1/2 p-6 rounded-lg shadow-lg border-2 mx-20 border-gray-600 backdrop-blur-xs overflow-y-auto">
                 <a href="/products" class="flex items-center text-gray-400 hover:text-white mb-4">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
@@ -33,7 +33,7 @@
                     <div class="relative mb-4">
                         <label for="productName" class="block text-sm text-gray-400">Product Name<span class="text-rose-600">*</span></label>
                         <input type="text" id="productName" name="productName" required
-                               class="block w-full p-2 bg-transparent border border-gray-600 rounded focus:border-sky-500 focus:outline-none placeholder-gray-500"
+                               class="block w-full p-2 bg-transparent text-slate-300 border border-gray-600 rounded focus:border-sky-500 focus:outline-none placeholder-gray-500"
                                value="<%= product != null ? product.getProductName() : ""%>"
                                placeholder="e.g., Premium Coffee Beans"/>
                     </div>
@@ -41,7 +41,8 @@
                     <div class="relative mb-4">
                         <label for="brief" class="block text-sm text-gray-400">Description<span class="text-rose-600">*</span></label>
                         <textarea id="brief" name="brief" rows="3" required
-                                  class="block w-full p-2 bg-transparent border border-gray-600 rounded focus:border-sky-500 focus:outline-none placeholder-gray-500"
+                                  class="block w-full field-sizing-content
+                                  p-2 bg-transparent border border-gray-600 text-slate-300 rounded focus:border-sky-500 focus:outline-none placeholder-gray-500"
                                   placeholder="e.g., High-quality coffee from Vietnam"><%= product != null ? product.getBrief() : ""%></textarea>
                     </div>
 
@@ -50,7 +51,7 @@
                             <label for="price" class="block text-sm text-gray-400">Price (VND)<span class="text-rose-600">*</span></label>
                             <div class="relative">
                                 <input type="number" id="price" name="price" min="0" step="1000" required
-                                       class="block w-full p-2 bg-transparent border border-gray-600 rounded focus:border-sky-500 focus:outline-none text-right placeholder-gray-500 appearance-none"
+                                       class="block w-full p-2 bg-transparent pr-5 text-slate-300 border border-gray-600 rounded focus:border-sky-500 focus:outline-none text-right placeholder-gray-500 appearance-none"
                                        value="<%= product != null ? product.getPrice() : ""%>"
                                        placeholder="100000"/>
                                 <span class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400">₫</span>
@@ -60,7 +61,7 @@
                             <label for="discount" class="block text-sm text-gray-400">Discount (%)<span class="text-rose-600">*</span></label>
                             <div class="relative">
                                 <input type="number" id="discount" name="discount" min="0" max="100" step="1"
-                                       class="block w-full p-2 bg-transparent border border-gray-600 rounded focus:border-sky-500 focus:outline-none text-right placeholder-gray-500 appearance-none"
+                                       class="block w-full p-2 bg-transparent pr-6 border border-gray-600 rounded focus:border-sky-500 focus:outline-none text-slate-300 text-right placeholder-gray-500 appearance-none"
                                        value="<%= product != null ? product.getDiscount() : ""%>"
                                        placeholder="10"/>
                                 <span class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400">%</span>
@@ -71,7 +72,7 @@
                     <div class="relative mb-4">
                         <label for="productImage" class="block text-sm text-gray-400">Product Image Path<span class="text-rose-600">*</span></label>
                         <input type="text" id="productImage" name="productImage" required
-                               class="block w-full p-2 bg-transparent border border-gray-600 rounded focus:border-sky-500 focus:outline-none placeholder-gray-500"
+                               class="block w-full p-2 bg-transparent border text-slate-300 border-gray-600 rounded focus:border-sky-500 focus:outline-none placeholder-gray-500"
                                value="<%= product != null ? product.getProductImage() : ""%>"
                                placeholder="e.g., /images/product.jpg"/>
                     </div>
@@ -80,7 +81,7 @@
                         <div class="relative mb-4">
                             <label for="unit" class="block text-sm text-gray-400">Unit<span class="text-rose-600">*</span></label>
                             <input type="text" id="unit" name="unit" required
-                                   class="block w-full p-2 bg-transparent border border-gray-600 rounded focus:border-sky-500 focus:outline-none placeholder-gray-500"
+                                   class="block w-full p-2 bg-transparent text-slate-300 border border-gray-600 rounded focus:border-sky-500 focus:outline-none placeholder-gray-500"
                                    value="<%= product != null ? product.getUnit() : ""%>"
                                    placeholder="e.g., kg"/>
                         </div>
@@ -88,14 +89,14 @@
                             <label for="typeId" class="block text-sm text-gray-400">Category<span class="text-rose-600">*</span></label>
                             <select id="typeId" name="typeId" required
                                     class="block w-full p-2 pr-8 bg-transparent border border-gray-600 rounded text-white focus:border-sky-500 focus:outline-none cursor-pointer appearance-none placeholder-gray-500">
-                                <option value="" class="bg-slate-800" disabled>Select a category</option>
+                                <option value="" class="bg-slate-950 text-slate-500" disabled>Select a category</option>
                                 <%
                                     List<Category> categories = (List<Category>) session.getAttribute("categories");
                                     if (categories != null) {
                                         for (Category category : categories) {
                                             String selected = (product != null && category.getTypeId() == product.getTypeId()) ? "selected" : "";
                                 %>
-                                <option value="<%= category.getTypeId()%>" class="bg-slate-800" <%= selected%>><%= category.getCategoryName()%></option>
+                                <option value="<%= category.getTypeId()%>" class="bg-slate-950 text-slate-300" <%= selected%>><%= category.getCategoryName()%></option>
                                 <%
                                         }
                                     }
@@ -114,10 +115,10 @@
                         </button>
                     </div>
                 </form>
-            </div>
+            </div>        <div class="fixed inset-0 -z-50 bg-[url('/Public/Images/axiom-pattern.png')] bg-repeat brightness-125 bg-blend-screen"></div>
+
         </div>
 
-        <div class="fixed inset-0 -z-50 bg-[url('/Public/Images/axiom-pattern.png')] bg-repeat brightness-125 bg-blend-screen"></div>
 
         <script>
             function validateForm() {

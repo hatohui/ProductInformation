@@ -19,16 +19,16 @@
                             <select name="role" id="roleFilter"
                                     class="bg-gray-800 text-white border border-gray-600 px-3 py-2 rounded-md focus:ring focus:ring-blue-400"
                                     onchange="this.form.submit()">
-                                <option value="">All Roles</option>
-                                <option value="admin" <%= "admin".equals(request.getParameter("role")) ? "selected" : ""%>>Admin</option>
-                                <option value="manager" <%= "manager".equals(request.getParameter("role")) ? "selected" : ""%>>Manager</option>
+                                <option class="text-slate-400" value="">All Roles</option>
+                                <option class="text-slate-400" value="admin" <%= "admin".equals(request.getParameter("role")) ? "selected" : ""%>>Admin</option>
+                                <option class="text-slate-400" value="manager" <%= "manager".equals(request.getParameter("role")) ? "selected" : ""%>>Manager</option>
                             </select>
                             <select name="status" id="statusFilter"
                                     class="bg-gray-800 text-white border border-gray-600 px-3 py-2 rounded-md focus:ring focus:ring-blue-400"
                                     onchange="this.form.submit()">
-                                <option value="">All Statuses</option>
-                                <option value="true" <%= "true".equals(request.getParameter("status")) ? "selected" : ""%>>Active</option>
-                                <option value="false" <%= "false".equals(request.getParameter("status")) ? "selected" : ""%>>Inactive</option>
+                                <option value="" class="text-slate-400">All Statuses</option>
+                                <option value="true" class="text-green-500" <%= "true".equals(request.getParameter("status")) ? "selected" : ""%>>Active</option>
+                                <option value="false" class="text-rose-500" <%= "false".equals(request.getParameter("status")) ? "selected" : ""%>>Inactive</option>
                             </select>
                         </form>
 
@@ -71,7 +71,7 @@
                                 <td class="p-3 border border-gray-700"><%= acc.getGenderTitle()%></td>
                                 <td class="p-3 border border-gray-700"><%= acc.getPhone()%></td>
                                 <td class="p-3 border border-gray-700"><%= acc.getRoleString()%></td>
-                                <td class="p-3 border border-gray-700"><%= acc.isIsUse() ? "Active" : "Inactive"%></td>
+                                <td class="p-3 border border-gray-700 <%= acc.isIsUse() ? "text-green-400" : "text-rose-500"%>"><%= acc.isIsUse() ? "Active" : "Inactive"%></td>
                                 <td class="p-3 border border-gray-700">
                                     <button onclick="openEditModal('<%= acc.getAccount()%>',
                                                     '<%= acc.getLastName()%>',
@@ -82,12 +82,19 @@
                                                     '<%= acc.isIsUse()%>',
                                                     '<%= acc.getRoleInSystem()%>')"
                                             class="text-blue-400 hover:underline mr-3">Edit</button>
-
+                                    <%if (acc.isIsUse()) {%>
                                     <a href="/accounts/delete?account=<%= acc.getAccount()%>"
                                        class="text-red-400 hover:underline"
                                        onclick="return confirm('Are you sure you want to delete this account?');">
                                         Delete
                                     </a>
+                                    <%} else {%>
+                                    <a href="/accounts/activate?account=<%= acc.getAccount()%>"
+                                       class="text-green-400 hover:underline"
+                                       onclick="return confirm('Are you sure you want to enable this account?');">
+                                        Enable
+                                    </a>
+                                    <%}%>
                                 </td>
                             </tr>
                             <%

@@ -11,16 +11,27 @@
 
         <div class="container mx-auto py-6 max-w-[95%]">
 
-            <div class="w-full truncate md:flex mb-8 text-center justify-between border-b-2 border-gray-600 px-8 backdrop-blur-xs py-1">
+            <div class="w-full truncate md:flex mb-8 text-center justify-between border-b-2 bg-[#1e2939] border-gray-600 px-8 backdrop-blur-xs py-1">
                 <%
                     String currentCategory = request.getParameter("category");
                     if (currentCategory == null) {
                         currentCategory = "all";
                     }
+
+                    // Preserve parameters
+                    String baseParams = "";
+                    if (request.getParameter("search") != null) {
+                        baseParams += "&search=" + request.getParameter("search");
+                    }
+                    if (request.getParameter("filter") != null) {
+                        baseParams += "&filter=" + request.getParameter("filter");
+                    }
                 %>
-                <a href="?category=all" class="px-4 py-2 <%= currentCategory.equals("all") ? "bg-slate-200 text-slate-950" : "text-gray-300 hover:text-white hover:bg-gray-700 transition"%>">
+
+                <a href="?category=all<%= baseParams%>" class="px-4 py-2 <%= currentCategory.equals("all") ? "bg-slate-200 text-slate-950" : "text-gray-300 hover:text-white hover:bg-gray-700 transition"%>">
                     Toàn bộ sản phẩm
                 </a>
+
                 <%
                     List<Category> categories = (List<Category>) request.getSession().getAttribute("categories");
                     if (categories != null) {
@@ -28,7 +39,7 @@
                             String categoryId = String.valueOf(c.getTypeId());
                             String isActive = currentCategory.equals(categoryId) ? "bg-slate-200 text-slate-950" : "text-gray-300 hover:text-white hover:bg-gray-700 transition";
                 %>
-                <a href="?category=<%= categoryId%>" class="px-4 py-2 <%= isActive%>">
+                <a href="?category=<%= categoryId%><%= baseParams%>" class="px-4 py-2 <%= isActive%>">
                     <%= c.getCategoryName()%>
                 </a>
                 <%
@@ -43,56 +54,58 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-[1fr_4fr] gap-5">
                 <div class="relative h-12 w-full max-w-md">
-                    <input id="search" type="text" placeholder="Tìm kiếm sản phẩm..."
-                           class="w-full pl-12 pr-4 py-2 text-white bg-gray-800 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus-border-transparent placeholder-gray-400 h-full"/>
-                    <div class="absolute inset-y-0 left-0 flex items-center pl-4">
-                        <svg class="w-5 h-5 text-gray-300"
-                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="11" cy="11" r="8" />
-                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                        </svg>
-                    </div>
+                    <form action="/products" method="GET">
+                        <input type="hidden" name="category" value="<%= currentCategory%>">
+                        <input type="hidden" name="filter" value="<%= request.getParameter("filter") != null ? request.getParameter("filter") : ""%>">
+
+                        <input name="search" type="text" placeholder="Tìm kiếm sản phẩm..." value="<%= request.getAttribute("search") != null ? request.getAttribute("search") : ""%>"
+                               class="w-full pl-12 pr-4 py-2 text-white bg-gray-800 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus-border-transparent placeholder-gray-400 h-full"/>
+                    </form>
+
+                    <form action="/products" method="GET" class="bg-gray-800 mt-4 border border-gray-600 rounded-lg p-4">
+                        <input type="hidden" name="category" value="<%= currentCategory%>">
+                        <input type="hidden" name="search" value="<%= request.getParameter("search") != null ? request.getParameter("search") : ""%>">
+
+                        <p class="text-white font-semibold mb-2">Filter by Price:</p>
+
+                        <div class="space-y-2">
+                            <label class="flex items-center gap-2 text-gray-300 hover:text-white cursor-pointer">
+                                <input type="radio" name="filter" value="below5m"
+                                       class="w-5 h-5 accent-blue-500 cursor-pointer"
+                                       oninput="this.form.submit()"
+                                       <%= "below5m".equals(request.getParameter("filter")) ? "checked" : ""%>>
+                                < 5,000,000 VND
+                            </label>
+
+                            <label class="flex items-center gap-2 text-gray-300 hover:text-white cursor-pointer">
+                                <input type="radio" name="filter" value="5mTo15m"
+                                       class="w-5 h-5 accent-blue-500 cursor-pointer"
+                                       oninput="this.form.submit()"
+                                       <%= "5mTo15m".equals(request.getParameter("filter")) ? "checked" : ""%>>
+                                5,000,000 to 15,000,000 VND
+                            </label>
+
+                            <label class="flex items-center gap-2 text-gray-300 hover:text-white cursor-pointer">
+                                <input type="radio" name="filter" value="above15m"
+                                       class="w-5 h-5 accent-blue-500 cursor-pointer"
+                                       oninput="this.form.submit()"
+                                       <%= "above15m".equals(request.getParameter("filter")) ? "checked" : ""%>>
+                                > 15,000,000 VND
+                            </label>
+                        </div>
+                    </form>
                 </div>
+
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    <% if (account.getRoleInSystem() == 1) { %>
-
-                    <a href="/products/create" class="relative bg-black-75 border-2 backdrop-blur-xs border-gray-600 rounded-lg shadow-lg overflow-hidden group transition-all hover:scale-105 flex flex-col items-center justify-center cursor-pointer p-4 min-w-[150px] text-white">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-white mb-2 group-hover:text-green-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
-                        </svg>
-                        <span class="text-sm font-semibold text-center">Create New Product</span>
-                    </a>
-
-                    <% } %>
                     <%
                         List<Product> products = (List<Product>) request.getAttribute("products");
-                        NumberFormat currencyFormat = NumberFormat.getInstance(Locale.US); // Format numbers with commas
+                        NumberFormat currencyFormat = NumberFormat.getInstance(Locale.US);
 
                         if (products != null && !products.isEmpty()) {
                             for (Product product : products) {
                                 int finalPrice = product.getPrice() - (product.getPrice() * product.getDiscount() / 100);
                     %>
                     <div class="relative bg-black-75 border-2 backdrop-blur-xs border-gray-600 rounded-lg shadow-lg overflow-hidden group transition-all hover:scale-105 flex flex-col cursor-pointer">
-                        <% if (account.getRoleInSystem() == 1) {%>
-                        <div class="absolute top-2 right-2 z-10 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <a href="/products/edit?id=<%= product.getProductId()%>"
-                               class="bg-gray-800 text-white p-2 rounded-sm hover:bg-gray-700 transition-all border border-white"
-                               title="Edit Product">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 3.487a2.534 2.534 0 1 1 3.586 3.586l-9.918 9.918a4 4 0 0 1-1.414.942l-4.223 1.408a.5.5 0 0 1-.636-.636l1.408-4.223a4 4 0 0 1 .942-1.414l9.918-9.918z"/>
-                                </svg>
-                            </a>
-                            <a href="/products/delete?id=<%= product.getProductId()%>"
-                               class="bg-gray-800 text-white p-2 rounded-sm hover:bg-gray-700 transition-all border border-white"
-                               title="Delete Product"
-                               onclick="return confirm('Are you sure you want to delete this product?');">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </a>
-                        </div>
-                        <% }%>
-
                         <div class="relative w-full h-48 bg-gray-800 animate-pulse"
                              onclick="window.location.href = '/products/view?id=<%= product.getProductId()%>';">
                             <img src="<%= product.getProductImage()%>" alt="<%= product.getProductName()%>"
@@ -108,11 +121,11 @@
                             <div class="mt-auto flex justify-between items-end">
                                 <div>
                                     <p class="text-lg font-bold text-green-400">
-                                        <%= currencyFormat.format(finalPrice)%>đ
+                                        <%= currencyFormat.format(finalPrice)%> đ
                                     </p>
                                     <% if (product.getDiscount() > 0) {%>
                                     <p class="text-sm text-red-400 line-through">
-                                        <%= currencyFormat.format(product.getPrice())%>đ
+                                        <%= currencyFormat.format(product.getPrice())%> đ
                                     </p>
                                     <% }%>
                                 </div>
@@ -122,18 +135,17 @@
                             </div>
                         </div>
                     </div>
-                    <%
-                        }
-                    } else {
-                    %>
+                    <% }
+                    } else { %>
                     <div class="col-span-full text-center text-gray-400">
                         No products found.
                     </div>
                     <% }%>
                 </div>
+
             </div>
         </div>
-
         <div class="fixed inset-0 -z-50 bg-[url('/Public/Images/axiom-pattern.png')] bg-repeat brightness-125 bg-blend-screen"></div>
+
     </body>
 </html>

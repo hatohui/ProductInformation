@@ -41,6 +41,88 @@ public class ProductService implements Workable<Product> {
         return products;
     }
 
+    public List<Product> getProductsByCategory(int categoryId) {
+        List<Product> products = new ArrayList<>();
+        String query = "SELECT * FROM products WHERE typeId = ?";
+
+        try {
+            DatabaseInstance.connectToDatabase();
+            ResultSet result = DatabaseInstance.query(query, String.valueOf(categoryId));
+
+            while (result.next()) {
+                Product product = new Product(
+                        result.getString("productId"),
+                        result.getString("productName"),
+                        result.getString("productImage"),
+                        result.getString("brief"),
+                        result.getDate("postedDate"),
+                        result.getInt("typeId"),
+                        result.getString("account"),
+                        result.getString("unit"),
+                        result.getInt("price"),
+                        result.getInt("discount")
+                );
+                products.add(product);
+            }
+            DatabaseInstance.close();
+        } catch (SQLException exception) {
+            System.out.println("Error fetching products by category: " + exception.getMessage());
+        }
+
+        return products;
+    }
+
+    public List<Product> getProductsByPage(int page, int pageSize) {
+        List<Product> products = new ArrayList<>();
+        String query = "SELECT * FROM products LIMIT ? OFFSET ?;";
+
+        try {
+            DatabaseInstance.connectToDatabase();
+            int offset = (page - 1) * pageSize;
+            ResultSet result = DatabaseInstance.query(query, String.valueOf(pageSize), String.valueOf(offset));
+
+            while (result.next()) {
+                Product product = new Product(
+                        result.getString("productId"),
+                        result.getString("productName"),
+                        result.getString("productImage"),
+                        result.getString("brief"),
+                        result.getDate("postedDate"),
+                        result.getInt("typeId"),
+                        result.getString("account"),
+                        result.getString("unit"),
+                        result.getInt("price"),
+                        result.getInt("discount")
+                );
+                products.add(product);
+            }
+            DatabaseInstance.close();
+        } catch (SQLException exception) {
+            System.out.println("Error fetching paginated products: " + exception.getMessage());
+        }
+        return products;
+    }
+
+    public int getTotalProductCount() {
+        String query = "SELECT COUNT(*) AS total FROM products;";
+        int total = 0;
+
+        try {
+            DatabaseInstance.connectToDatabase();
+            ResultSet result = DatabaseInstance.query(query);
+
+            if (result.next()) {
+                total = result.getInt("total");
+            }
+
+            DatabaseInstance.close();
+        } catch (SQLException exception) {
+            System.out.println("Error fetching product count: " + exception.getMessage());
+        }
+
+        return total;
+    }
+
     @Override
     public boolean post(Product newProduct) {
         try {
@@ -83,7 +165,7 @@ public class ProductService implements Workable<Product> {
 
     @Override
     public boolean delete(String productId) {
-        String query = "DELETE FROM products WHERE productId = ?;";
+        String query = "DELETE FROM products WHERE productId = ?";
 
         try {
             DatabaseInstance.connectToDatabase();
@@ -125,5 +207,35 @@ public class ProductService implements Workable<Product> {
             System.out.println("Error fetching product by ID: " + e.getMessage());
         }
         return product;
+    }
+
+    public List<Product> search(String queryText) {
+        List<Product> products = new ArrayList<>();
+        String query = "SELECT * FROM products WHERE productName LIKE ?";
+
+        try {
+            DatabaseInstance.connectToDatabase();
+            ResultSet result = DatabaseInstance.query(query, "%" + queryText + "%");
+
+            while (result.next()) {
+                Product product = new Product(
+                        result.getString("productId"),
+                        result.getString("productName"),
+                        result.getString("productImage"),
+                        result.getString("brief"),
+                        result.getDate("postedDate"),
+                        result.getInt("typeId"),
+                        result.getString("account"),
+                        result.getString("unit"),
+                        result.getInt("price"),
+                        result.getInt("discount")
+                );
+                products.add(product);
+            }
+            DatabaseInstance.close();
+        } catch (SQLException exception) {
+            System.out.println("Error searching products: " + exception.getMessage());
+        }
+        return products;
     }
 }
